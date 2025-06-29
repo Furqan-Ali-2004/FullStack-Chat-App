@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useChatStore } from "../store/useChatStore.js";
-import { useAuthStore } from "../store/useAuthStore.js";
-import SidebarSkeleton from "./skeletons/SidebarSkeleton.jsx";
+import { useChatStore } from "../store/useChatStore";
+import { useAuthStore } from "../store/useAuthStore";
+import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 import { Users } from "lucide-react";
 
 const Sidebar = () => {
@@ -11,13 +11,13 @@ const Sidebar = () => {
   const { onlineUsers } = useAuthStore();
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
 
-  const filteredUsers = showOnlineOnly
-    ? users.filter((user) => onlineUsers.includes(user._id))
-    : users;
-
   useEffect(() => {
     getUsers();
   }, [getUsers]);
+
+  const filteredUsers = showOnlineOnly
+    ? users.filter((user) => onlineUsers.includes(user._id))
+    : users;
 
   if (isUsersLoading) return <SidebarSkeleton />;
 
@@ -28,7 +28,7 @@ const Sidebar = () => {
           <Users className="size-6" />
           <span className="font-medium hidden lg:block">Contacts</span>
         </div>
-        {/* Online filter Toggle */}
+        {/* TODO: Online filter toggle */}
         <div className="mt-3 hidden lg:flex items-center gap-2">
           <label className="cursor-pointer flex items-center gap-2">
             <input
@@ -83,6 +83,7 @@ const Sidebar = () => {
             </div>
           </button>
         ))}
+
         {filteredUsers.length === 0 && (
           <div className="text-center text-zinc-500 py-4">No online users</div>
         )}
@@ -90,5 +91,4 @@ const Sidebar = () => {
     </aside>
   );
 };
-
 export default Sidebar;
